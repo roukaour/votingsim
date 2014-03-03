@@ -1,0 +1,175 @@
+<html>
+
+<h1>Voting Simulator</h1>
+
+<p>Copyright &copy; 2011 Remy Oukaour</p>
+
+<p>Inspired by Ka-Ping Yee's visualizations &lt;http://www.zesty.ca/voting/sim/&gt;
+and by Warren D. Smith's Infinitely Extendible Voting Simulator
+&lt;http://www.rangevoting.org/IEVS/Pictures.html&gt;.</p>
+
+<p>This program simulates elections using various electoral systems to compare
+the systems' relative merits.</p>
+
+<h2>Algorithm</h2>
+
+<p>To simulate elections, this program makes some simplifying assumptions:</p>
+
+<ul>
+<li>Political positions can be represented as points on a 2D grid. I think of
+the x- and y-axes as measuring economic and social freedom, as with the Political
+Compass &lt;politicalcompass.org&gt;, but what they represent is irrelevant.</li>
+<li>Voters are honest: they prefer candidates who are closer to their own positions.</li>
+<li>In a single election, voters are normally distributed around a "center of opinion."</li>
+</ul>
+
+<p>The user sets the election parameters, fills out a ballot with candidates,
+and runs a series of elections. An election is held for every pixel on the image,
+with the pixel's coordinates as its center of opinion. Each pixel is colored
+according to the winner.</p>
+
+<h2>Menus</h2>
+
+<p>Every menu option has a corresponding keyboard shortcut.</p>
+
+<ul>
+<li><b><u>E</u>lection menu:</b>
+	<ul>
+	<li><b><u>N</u>ew (Ctrl+N):</b> Initializes the controls with their default
+	values.</li>
+	<li><b><u>L</u>oad... (Ctrl+L):</b> Loads saved election parameters from a
+	.election file.</li>
+	<li><b><u>S</u>ave... (Ctrl+Shift+S):</b> Saves the current election parameters
+	as a .election file.
+	<li><b>Sta<u>r</u>t (Ctrl+R):</b> Starts running a series of elections, or
+	resumes the current series if it was paused. Disabled if the ballot is empty.</li>
+	<li><b><u>P</u>ause (Ctrl+P):</b> Pauses the current election series. Disabled
+	if there is no series running.</li>
+	<li><b>S<u>t</u>op (Ctrl+T):</b> Stops the current election series. Disabled
+	if there is no series started.</li>
+	</ul>
+</li>
+<li><b><u>I</u>mage menu:</b>
+	<ul>
+	<li><b><u>C</u>lear (Ctrl+C):</b> Clears the image.</li>
+	<li><b><u>S</u>ave... (Ctrl+S):</b> Saves the image. The following formats
+	may be supported by your system: PNG, GIF, BMP, TGA, TIFF, PPM.</li>
+	</ul>
+</li>
+<li><b><u>B</u>allot menu:</b>
+	<ul>
+	<li><b><u>A</u>dd (Ctrl+D):</b> Adds a candidate with the given color and
+	location to the ballot.</li>
+	<li><b><u>C</u>lear (Ctrl+Shift+C):</b> Removes all candidates from the
+	ballot.</li>
+	</ul>
+</li>
+<li><b><u>H</u>elp menu:</b>
+	<ul>
+	<li><b><u>H</u>elp (F1):</b> Shows this help file.</li>
+	<li><b><u>A</u>bout (Ctrl+A):</b> Shows an About dialog with copyright
+	information.</li>
+	</ul>
+</li>
+</ul>
+
+<h2>Controls</h2>
+
+<ul>
+<li><b>Image:</b> Click on the image to add a randomly-colored candidate at that
+location to the ballot.</li>
+<li><b>Electoral system:</b> Choose an electoral system to use for the elections.
+Descriptions of each system are below.</li>
+<li><b>Population:</b> Set the population size for each election. Should be a
+positive integer.</li>
+<li><b>Variance:</b> Set the variance for each election. Should be between 0 and 1.
+Elections use a normal distribution of voters.</li>
+<li><b>Color:</b> Set a candidate's color. Should be a hexadecimal RGB triple.
+This color will be used in the image if the candidate wins an election. Colors
+are represented as hexadecimal triples of red, green, and blue.</li>
+<li><b>Location:</b> Set a candidate's location in the space of political opinions.
+The first field is the x coordinate, the second is y. The image only displays
+points with coordinates between &minus;0.25 and 1.25, but candidates can be placed
+anywhere.</li>
+<li><b>Add:</b> Adds a candidate with the given color and location to the ballot.</li>
+<li><b>Remove:</b> Removes the selected candidate from the ballot. Disabled if
+no candidate is selected.</li>
+<li><b>Update:</b> Updates the selected candidate with the given color and location.
+Disabled if no candidate is selected.</li>
+<li><b>Stop:</b> Stops the current election series. Disabled if these is no
+series started.</li>
+<li><b>Elect/Pause:</b> Starts or pauses a series of elections. Disabled if the
+ballot is empty.</li>
+</ul>
+
+<h2>Electoral systems</h2>
+
+<p>An electoral system is a method for voters to express their preferences, and
+for a single winning candidate to be chosen from those preferences. For a given
+ballot, different electoral systems may give very different results. This program's
+purpose is to compare systems.</p>
+
+<p>In case of a tie, a random winner is chosen.</p>
+
+<ul>
+<li><b>Plurality:</b> Each voter votes for one candidate. The candidate with the
+most votes wins. This is a common electoral method, and is the one used to choose
+U.S. presidents.</li>
+<li><b>Anti-plurality:</b> Each voter votes against one candidate. The candidate
+with the fewest votes wins.</li>
+<li><b>For-and-against:</b> Each voter votes for one candidate and against one
+candidate. The candidate with the most votes wins.</li>
+<li><b>Dabagh:</b> Each voter votes twice for their most-preferred candidate and
+once for their second-most-preferred candidate. The candidate with the most votes wins.</li>
+<li><b>Bucklin:</b> Each voter ranks the candidates according to preference. If
+a candidate has a majority of the first-choice votes, they win. Otherwise,
+second-choice votes are added to the first-choice votes, then third-choice, and
+so forth until a candidate has a majority.</li>
+<li><b>Majority judgment:</b> Each voter ranks the candidates according to
+preference. The candidate with the highest median rank wins.</li>
+<li><b>Approval:</b> Each voter votes for every candidate of whom they approve.
+The candidate with the most votes wins. (For the purposes of this program, voters
+approve of candidates who are within an acceptable distance, chosen randomly for
+each voter from a log-normal distribution with mean 0 and variance 0.25.)</li>
+<li><b>Approval (strategic):</b> Identical to the approval method above, except
+that voters approve of candidates who are closer than average to their own position.</li>
+<li><b>Borda:</b> Each voter ranks the candidates according to preference.
+First-choice candidates get one point, second-choice two, and so forth. The
+candidate with the fewest points wins.</li>
+<li><b>Nauru:</b> Each voter ranks the candidates according to preference.
+First-choice candidates get one point, second-choice one-half, and so forth.
+The candidate with the most points wins.</li>
+<li><b>Instant runoff:</b> Each voter ranks the candidates according to preference.
+If a candidate has a majority of the first-choice votes, they win. Otherwise,
+the candidate with the fewest first-choice votes is eliminated, and their
+second-choice votes are distributed among the remaining candidates. This process
+continues until a candidate has a majority.</li>
+<li><b>Coombs:</b> Each voter ranks the candidates according to preference. If a
+candidate has a majority of the first-choice votes, they win. Otherwise, the
+candidate with the most last-choice votes is eliminated, and their second-choice
+votes are distributed among the remaining candidates. This process continues until
+a candidate has a majority.</li>
+<li><b>Contingent:</b> Each voter ranks the candidates according to preference.
+If a candidate has a majority of the first-choice votes, they win. Otherwise,
+all but the top two candidates are eliminated, and their second-choice votes are
+distributed among the remaining two candidates. Then the candidate with the most
+votes wins.</li>
+<li><b>Concordet:</b> Each voter ranks the candidates according to preference.
+If a candidate is preferred to all other candidates, that candidate wins. There
+are many methods to decide an election in which there is no such winner; this
+program uses the Schulze method.</li>
+<li><b>Range:</b> Each voter gives each candidate a score according to preference.
+The candidate with the lowest score wins. (For the purposes of this program, voters
+use the distance between themselves and each candidate as that candidate's score.)</li>
+<li><b>Random dictator:</b> The candidate preferred by a random voter wins.</li>
+<li><b>Random pair:</b> The ballot is limited to two random candidates. Each
+voter votes for one candidate. The candidate with the most votes wins.</li>
+<li><b>Sortition:</b> A random candidate wins.</li>
+<li><b>Optimal:</b> The best candidate wins.</li>
+<li><b>Pessimal:</b> The worst candidate wins.</li>
+</ul>
+
+<p>Wikipedia has more detailed information about these and other electoral
+methods &lt;http://en.wikipedia.org/wiki/Electoral_method&gt;.</p>
+
+</html>
