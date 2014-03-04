@@ -1,6 +1,8 @@
 # Voting Simulator
 
-Copyright © 2011-2014 Remy Oukaour <http://www.remyoukaour.com>.
+![A screenshot of the voting simulator.](example.png)
+
+*An election demonstrating how a centrist (green) candidate loses to more extreme candidates under plurality voting.*
 
 Inspired by [Ka-Ping Yee's visualizations](http://www.zesty.ca/voting/sim/) and by [Warren D. Smith's Infinitely Extendible Voting Simulator](http://www.rangevoting.org/IEVS/Pictures.html).
 
